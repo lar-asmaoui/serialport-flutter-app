@@ -160,6 +160,9 @@ class _UsersListState extends State<UsersList> {
                             _roleController.text.trim(),
                           )
                               .then((value) {
+                            usersController.loadUsers(
+                              _currentUser!.id.toString(),
+                            );
                             MotionToast.success(
                               description: Text("تم إضافة المستخدم بنجاح"),
                               layoutOrientation: ToastOrientation.rtl,

@@ -45,15 +45,13 @@ Future<Uint8List> generatePdf({
                   child: pw.Flexible(
                     child: pw.Directionality(
                       textDirection: pw.TextDirection.rtl,
-                      child: pw.FittedBox(
-                        child: pw.Text(
-                          ticket.header.toString(),
-                          textAlign: TextAlign.center,
-                          style: pw.TextStyle(
-                            font: ttf,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      child: pw.Text(
+                        ticket.header.toString(),
+                        textAlign: TextAlign.center,
+                        style: pw.TextStyle(
+                          font: ttf,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

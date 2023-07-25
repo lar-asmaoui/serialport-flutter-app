@@ -15,23 +15,23 @@ class TicketCard extends StatefulWidget {
 
 class _TicketCardState extends State<TicketCard> {
   Ticket _ticket = Ticket();
-  TextEditingController _headerController = TextEditingController();
-  TextEditingController _footerController = TextEditingController();
-  TextEditingController _telephoneController = TextEditingController();
+  final TextEditingController _headerController = TextEditingController();
+  final TextEditingController _footerController = TextEditingController();
+  final TextEditingController _telephoneController = TextEditingController();
   @override
   void initState() {
     super.initState();
     Provider.of<PreferencesController>(context, listen: false)
         .loadTicket()
-        .then((value) {
-      _ticket =
-          Provider.of<PreferencesController>(context, listen: false).ticket;
-      print(_ticket.header);
-      // _ticket = value;
-      _headerController.text = _ticket.header.toString();
-      _footerController.text = _ticket.footer.toString();
-      _telephoneController.text = _ticket.telephone.toString();
-    });
+        .then(
+      (value) {
+        _ticket =
+            Provider.of<PreferencesController>(context, listen: false).ticket;
+        _headerController.text = _ticket.header.toString();
+        _footerController.text = _ticket.footer.toString();
+        _telephoneController.text = _ticket.telephone.toString();
+      },
+    );
   }
 
   @override
@@ -87,7 +87,7 @@ class _TicketCardState extends State<TicketCard> {
                       gapPadding: 5,
                     ),
                     labelText: 'تذييل التذكرة',
-                    suffixIcon: Icon(Icons.text_fields),
+                    suffixIcon: const Icon(Icons.text_fields),
                     labelStyle: Theme.of(context).textTheme.labelMedium,
                     // border: OutlineInputBorder(),
                   ),
@@ -107,7 +107,7 @@ class _TicketCardState extends State<TicketCard> {
                       gapPadding: 5,
                     ),
                     labelText: 'رقم الهاتف',
-                    suffixIcon: Icon(Icons.phone),
+                    suffixIcon: const Icon(Icons.phone),
                     labelStyle: Theme.of(context).textTheme.labelMedium,
                     // border: OutlineInputBorder(),
                   ),
@@ -126,7 +126,7 @@ class _TicketCardState extends State<TicketCard> {
                         .then(
                       (value) {
                         MotionToast.success(
-                          description: Text("تم حفظ التذكرة بنجاح"),
+                          description: const Text("تم حفظ التذكرة بنجاح"),
                           layoutOrientation: ToastOrientation.rtl,
                           animationType: AnimationType.fromRight,
                           width: 300,
@@ -136,7 +136,7 @@ class _TicketCardState extends State<TicketCard> {
                       },
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     "حفظ",
                   ),
                 ),

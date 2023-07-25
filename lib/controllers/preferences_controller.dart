@@ -134,7 +134,7 @@ class PreferencesController extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _ticket = Ticket.fromJson(jsonDecode(prefs.getString('ticket')!));
     if (_ticket.header == null || _ticket.header == "") {
-      _ticket.header = "جمعية التضامن للأعمال الاجتماعية إڭلي";
+      _ticket.header = "المطحنة";
     }
     if (_ticket.footer == null || _ticket.footer == "") {
       _ticket.footer = "شكرا لزيارتكم";

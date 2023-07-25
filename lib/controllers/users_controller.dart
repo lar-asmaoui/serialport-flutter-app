@@ -40,8 +40,8 @@ class UsersController extends ChangeNotifier {
   }
 
   Future<void> create(String username, String password, String role) async {
-    if (username.isEmpty || password.isEmpty) {
-      throw Exception('لا يمكن أن يكون اسم المستخدم وكلمة المرور فارغين');
+    if (username.isEmpty || password.isEmpty || role.isEmpty) {
+      throw Exception(' يجب ملئ جميع الحقول');
     }
 
     User user = User(

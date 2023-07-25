@@ -74,8 +74,8 @@ class _MainScreenState extends State<MainScreen> {
       body: Column(
         children: [
           DefaultTabController(
-            // length: _isAdmin ? 3 : 2,
-            length: 5,
+            length: _isAdmin ? 3 : 2,
+            // length: 5,
             child: Expanded(
               child: Column(
                 children: [
@@ -83,80 +83,80 @@ class _MainScreenState extends State<MainScreen> {
                   Directionality(
                     textDirection: TextDirection.rtl,
                     child: TabBar(
-                      tabs: [
-                        Tab(
-                          text: 'الرئيسية',
-                          icon: Icon(Icons.home),
-                        ),
-                        Tab(
-                          text: 'احصائيات',
-                          icon: Icon(Icons.equalizer),
-                        ),
-                        Tab(
-                          text: 'الطلبيات',
-                          icon: Icon(
-                            Icons.shopping_cart,
-                          ),
-                        ),
-                        Tab(
-                          text: 'اعدادات',
-                          icon: Icon(Icons.settings),
-                        ),
-                        Tab(
-                          text: 'اعدادات',
-                          icon: Icon(Icons.settings),
-                        ),
-                      ],
+                      // tabs: [
+                      //   Tab(
+                      //     text: 'الرئيسية',
+                      //     icon: Icon(Icons.home),
+                      //   ),
+                      //   Tab(
+                      //     text: 'احصائيات',
+                      //     icon: Icon(Icons.equalizer),
+                      //   ),
+                      //   Tab(
+                      //     text: 'الطلبيات',
+                      //     icon: Icon(
+                      //       Icons.shopping_cart,
+                      //     ),
+                      //   ),
+                      //   Tab(
+                      //     text: 'اعدادات',
+                      //     icon: Icon(Icons.settings),
+                      //   ),
+                      //   Tab(
+                      //     text: 'اعدادات',
+                      //     icon: Icon(Icons.settings),
+                      //   ),
+                      // ],
 
-                      // tabs: _isAdmin
-                      //     ? [
-                      //         Tab(
-                      //           text: 'احصائيات',
-                      //           icon: Icon(Icons.timeline_sharp),
-                      //         ),
-                      //         Tab(
-                      //           text: 'الطلبيات',
-                      //           icon: Icon(
-                      //             Icons.shopping_cart,
-                      //           ),
-                      //         ),
-                      //         Tab(
-                      //           text: 'اعدادات',
-                      //           icon: Icon(Icons.settings),
-                      //         ),
-                      //       ]
-                      //     : [
-                      //         Tab(
-                      //           text: 'الرئيسية',
-                      //           icon: Icon(Icons.home),
-                      //         ),
-                      //         Tab(
-                      //           text: 'اعدادات',
-                      //           icon: Icon(Icons.settings),
-                      //         ),
-                      //       ],
+                      tabs: _isAdmin
+                          ? [
+                              Tab(
+                                text: 'احصائيات',
+                                icon: Icon(Icons.timeline_sharp),
+                              ),
+                              Tab(
+                                text: 'الطلبيات',
+                                icon: Icon(
+                                  Icons.shopping_cart,
+                                ),
+                              ),
+                              Tab(
+                                text: 'اعدادات',
+                                icon: Icon(Icons.settings),
+                              ),
+                            ]
+                          : [
+                              Tab(
+                                text: 'الرئيسية',
+                                icon: Icon(Icons.home),
+                              ),
+                              Tab(
+                                text: 'اعدادات',
+                                icon: Icon(Icons.settings),
+                              ),
+                            ],
                     ),
                   ),
                   Expanded(
                     child: TabBarView(
-                      children: [
-                        CalculatorScreen(),
-                        StatistiquesScreen(),
-                        OrdersScreen(),
-                        SettingsEmployeeScreen(),
-                        SettingsScreen(),
-                      ],
+                      // children: [
+                      //   CalculatorScreen(),
+                      //   StatistiquesScreen(),
+                      //   OrdersScreen(),
+                      //   SettingsEmployeeScreen(),
+                      //   SettingsScreen(),
+                      // ],
 
-                      // children: _isAdmin
-                      //     ? [
-                      //         StatistiquesScreen(),
-                      //         OrdersScreen(),
-                      //         SettingsScreen(),
-                      //       ]
-                      //     : [
-                      //         CalculatorScreen(),
-                      //         SettingsEmployeeScreen(),
-                      //       ],
+                      children: _isAdmin
+                          ? [
+                              StatistiquesScreen(),
+                              OrdersScreen(),
+                              SettingsScreen(),
+                            ]
+                          : [
+                              CalculatorScreen(),
+                              SettingsEmployeeScreen(),
+                            ],
                     ),
                   ),
                 ],
