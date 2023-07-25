@@ -97,9 +97,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     totalweight,
                   )
                       .then(
-                    (value) async {
-                      await Printing.directPrintPdf(
-                        printer: preferencesController.printer,
+                    (value) {
+                      Printing.directPrintPdf(
+                        printer: Printer(
+                          url: 'GP-U80300 Series',
+                        ),
                         onLayout: (format) {
                           return generatePdf(
                             format: format,
@@ -113,8 +115,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     },
                   ).then(
                     (value) {
-                      cartController.clearItems();
-                      preferencesController.setValue(0.0);
+                      // cartController.clearItems();
+                      // preferencesController.setValue(0.0);
                       MotionToast.success(
                         description: Text("تمت العملية بنجاح"),
                         width: 300,
@@ -124,16 +126,18 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         barrierColor: Colors.black54,
                       ).show(context);
                     },
-                  ).catchError((err) {
-                    MotionToast.error(
-                      description: Text("حدث خطأ ما"),
-                      width: 300,
-                      height: 100,
-                      layoutOrientation: ToastOrientation.rtl,
-                      animationType: AnimationType.fromRight,
-                      barrierColor: Colors.black54,
-                    ).show(context);
-                  });
+                  ).catchError(
+                    (err) {
+                      MotionToast.error(
+                        description: Text("حدث خطأ ما"),
+                        width: 300,
+                        height: 100,
+                        layoutOrientation: ToastOrientation.rtl,
+                        animationType: AnimationType.fromRight,
+                        barrierColor: Colors.black54,
+                      ).show(context);
+                    },
+                  );
                 },
                 width: deviceSize.width * 0.3,
               ).show();

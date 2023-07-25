@@ -51,7 +51,7 @@ class _CustomGaugeState extends State<CustomGauge> {
             //   color: Theme.of(context).primaryColor,
             // ),
           ],
-          interval: 10,
+          interval: 20,
           pointers: <GaugePointer>[
             NeedlePointer(
               value: widget._weight,

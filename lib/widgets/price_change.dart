@@ -51,7 +51,7 @@ class _PriceChangeState extends State<PriceChange> {
                 SizedBox(height: deviceSize.height * 0.03),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
                       fit: FlexFit.loose,
@@ -61,6 +61,13 @@ class _PriceChangeState extends State<PriceChange> {
                           decimal: true,
                         ),
                         decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(
+                            8,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            gapPadding: 5,
+                          ),
                           labelText: 'الثمن',
                           labelStyle: Theme.of(context).textTheme.labelMedium,
                           // border: OutlineInputBorder(),

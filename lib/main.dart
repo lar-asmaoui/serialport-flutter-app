@@ -95,7 +95,10 @@ class MyApp extends StatelessWidget {
           // colorSchemeSeed: const Color.fromRGBO(255, 203, 83, 1),
           useMaterial3: true,
           textTheme: const TextTheme(
-            displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            displayLarge: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
             bodyLarge: TextStyle(
               fontSize: 18,
               color: Colors.black87,
@@ -108,7 +111,7 @@ class MyApp extends StatelessWidget {
           splash: Icon(
             size: deviceSize.height * 0.3,
             Icons.balance,
-            color: const Color.fromRGBO(240, 192, 79, 1),
+            color: Theme.of(context).primaryColor,
           ),
           nextScreen:
               currentUser != null ? const MainScreen() : const LoginScreen(),

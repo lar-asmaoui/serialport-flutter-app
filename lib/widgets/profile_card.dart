@@ -23,7 +23,6 @@ class _ProfileCardState extends State<ProfileCard> {
       TextEditingController();
 
   bool _isObscurePassword = true;
-
   bool _isObscureConfirmPassword = true;
 
   User? _currentUser;
@@ -63,17 +62,31 @@ class _ProfileCardState extends State<ProfileCard> {
                 TextField(
                   controller: _usernameController,
                   decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.person),
+                    contentPadding: const EdgeInsets.all(
+                      8,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      gapPadding: 5,
+                    ),
+                    suffixIcon: const Icon(Icons.person),
                     labelText: 'اسم المستخدم',
                     labelStyle: Theme.of(context).textTheme.labelMedium,
                     // border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: deviceSize.height * 0.01),
+                SizedBox(height: deviceSize.height * 0.02),
                 TextField(
                   controller: _passwordController,
                   obscureText: _isObscurePassword,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(
+                      8,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      gapPadding: 5,
+                    ),
                     suffixIcon: IconButton(
                         icon: Icon(_isObscurePassword
                             ? Icons.visibility
@@ -88,11 +101,18 @@ class _ProfileCardState extends State<ProfileCard> {
                     // border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: deviceSize.height * 0.01),
+                SizedBox(height: deviceSize.height * 0.03),
                 TextField(
                   controller: _passwordConfirmController,
                   obscureText: _isObscureConfirmPassword,
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(
+                      8,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      gapPadding: 5,
+                    ),
                     suffixIcon: IconButton(
                         icon: Icon(_isObscureConfirmPassword
                             ? Icons.visibility

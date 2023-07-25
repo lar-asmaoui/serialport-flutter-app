@@ -219,6 +219,7 @@ Future<Uint8List> generatePdf({
                     ),
                   ),
                 ),
+                pw.SizedBox(height: 15),
               ],
             ),
           ),

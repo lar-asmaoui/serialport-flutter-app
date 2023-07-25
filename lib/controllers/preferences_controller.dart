@@ -3,10 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:printing/printing.dart';
 
 class PreferencesController extends ChangeNotifier {
   dynamic serialPort;
   dynamic _printer;
+  dynamic _printersList;
+
+  get printersList => _printersList;
 
   get printer => _printer;
 
@@ -47,15 +51,7 @@ class PreferencesController extends ChangeNotifier {
   Future<void> loadPort() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     serialPort = prefs.getString('port')!;
-    // notifyListeners();
   }
-
-  // Future<void> savePrinter(String printer) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('printer', printer);
-  //   print("printer ${prefs.getString('printer')}");
-  //   notifyListeners();
-  // }
 
   Future<void> connect() async {
     final port = SerialPort(serialPort.toString());
@@ -94,7 +90,7 @@ class PreferencesController extends ChangeNotifier {
           }
 
           // Check if the complete line contains valid data (e.g., "33.00")
-          if (isValidValue(completeLine)) {
+          if (RegExp(r'^[\d.]+$').hasMatch((completeLine))) {
             print(completeLine);
             setValue(double.tryParse(completeLine) ?? 0);
           }
@@ -103,16 +99,21 @@ class PreferencesController extends ChangeNotifier {
 
       notifyListeners();
     } on SerialPortError catch (err, _) {
-      port.flush();
+      disconnect();
       setValue(0.0);
       notifyListeners();
     }
   }
 
-  // Helper function to check if a received line contains a valid value
-  bool isValidValue(String line) {
-    // You can customize this function based on your data format.
-    // For example, you can check if the line only contains digits and a period.
-    return RegExp(r'^[\d.]+$').hasMatch(line);
+  Future<void> disconnect() async {
+    if (serialPort != null && serialPort.isOpen) {
+      serialPort.close();
+    }
+  }
+
+  // load printers
+  Future<void> loadPrinters() async {
+    _printersList = await Printing.listPrinters();
+    notifyListeners();
   }
 }
