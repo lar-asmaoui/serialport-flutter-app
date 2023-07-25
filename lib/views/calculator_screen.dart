@@ -10,6 +10,7 @@ import '../controllers/preferences_controller.dart';
 import '../controllers/prices_controller.dart';
 import '../controllers/cart_controller.dart';
 import '../controllers/order_controller.dart';
+import '../models/ticket.dart';
 import '../widgets/add_item_card.dart';
 import '../widgets/gauge_card.dart';
 import '../widgets/receipt_card.dart';
@@ -24,6 +25,8 @@ class CalculatorScreen extends StatefulWidget {
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
   dynamic _weight;
+  String? _printer;
+  Ticket _ticket = Ticket();
   @override
   void initState() {
     super.initState();
@@ -35,6 +38,18 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             .loadPort()
             .then((value) {
           Provider.of<PreferencesController>(context, listen: false).connect();
+        }),
+        Provider.of<PreferencesController>(context, listen: false)
+            .loadPrinter()
+            .then((value) {
+          _printer = Provider.of<PreferencesController>(context, listen: false)
+              .printer;
+        }),
+        Provider.of<PreferencesController>(context, listen: false)
+            .loadTicket()
+            .then((value) {
+          _ticket =
+              Provider.of<PreferencesController>(context, listen: false).ticket;
         }),
       },
     );
@@ -100,7 +115,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     (value) {
                       Printing.directPrintPdf(
                         printer: Printer(
-                          url: 'GP-U80300 Series',
+                          url: _printer!,
                         ),
                         onLayout: (format) {
                           return generatePdf(
@@ -109,6 +124,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                             pricePerKg: pricePerkg,
                             totalPrice: totalPrice,
                             totalWeight: totalweight,
+                            ticket: _ticket,
                           );
                         },
                       );

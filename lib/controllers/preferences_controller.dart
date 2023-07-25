@@ -1,17 +1,20 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:printing/printing.dart';
+import '../models/ticket.dart';
 
 class PreferencesController extends ChangeNotifier {
   dynamic serialPort;
   dynamic _printer;
   dynamic _printersList;
+  Ticket _ticket = Ticket();
 
+  Ticket get ticket => _ticket;
   get printersList => _printersList;
-
   get printer => _printer;
 
   void setPrinter(printer) {
@@ -114,6 +117,31 @@ class PreferencesController extends ChangeNotifier {
   // load printers
   Future<void> loadPrinters() async {
     _printersList = await Printing.listPrinters();
+    notifyListeners();
+  }
+
+  Future<void> saveTicket(
+      String header, String footer, String telephone) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Ticket ticket =
+        Ticket(header: header, footer: footer, telephone: telephone);
+    prefs.setString('ticket', jsonEncode(ticket));
+    print("ticket prefs ${prefs.getString('ticket')}");
+    notifyListeners();
+  }
+
+  Future<void> loadTicket() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _ticket = Ticket.fromJson(jsonDecode(prefs.getString('ticket')!));
+    if (_ticket.header == null || _ticket.header == "") {
+      _ticket.header = "جمعية التضامن للأعمال الاجتماعية إڭلي";
+    }
+    if (_ticket.footer == null || _ticket.footer == "") {
+      _ticket.footer = "شكرا لزيارتكم";
+    }
+    if (_ticket.telephone == null || _ticket.telephone == "") {
+      _ticket.telephone = "0555 55 55 55";
+    }
     notifyListeners();
   }
 }

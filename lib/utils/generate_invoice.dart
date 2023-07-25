@@ -6,12 +6,15 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import '../models/ticket.dart';
+
 Future<Uint8List> generatePdf({
   required PdfPageFormat format,
   required dynamic items,
   required dynamic pricePerKg,
   required dynamic totalWeight,
   required dynamic totalPrice,
+  required Ticket ticket,
 }) async {
   final pdf = pw.Document(version: PdfVersion.pdf_1_5, compress: true);
   final font = await rootBundle.load("assets/fonts/Amiri-Regular.ttf");
@@ -30,12 +33,12 @@ Future<Uint8List> generatePdf({
               // crossAxisAlignment: CrossAxisAlignment.center,
               crossAxisAlignment: pw.CrossAxisAlignment.center,
               children: [
-                pw.Text(
-                  "A.S.I.S",
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                  ),
-                ),
+                // pw.Text(
+                //   "A.S.I.S",
+                //   style: const pw.TextStyle(
+                //     fontSize: 10,
+                //   ),
+                // ),
                 pw.SizedBox(height: 10),
                 pw.Container(
                   width: double.infinity,
@@ -44,7 +47,7 @@ Future<Uint8List> generatePdf({
                       textDirection: pw.TextDirection.rtl,
                       child: pw.FittedBox(
                         child: pw.Text(
-                          'جمعية التضامن للأعمال الاجتماعية إڭلي',
+                          ticket.header.toString(),
                           textAlign: TextAlign.center,
                           style: pw.TextStyle(
                             font: ttf,
@@ -212,14 +215,37 @@ Future<Uint8List> generatePdf({
                 pw.Directionality(
                   textDirection: pw.TextDirection.rtl,
                   child: pw.Text(
-                    'شكرا على زيارتكم',
+                    ticket.footer.toString(),
                     style: pw.TextStyle(
                       font: ttf,
                       fontSize: 10,
                     ),
                   ),
                 ),
-                pw.SizedBox(height: 15),
+                pw.SizedBox(height: 5),
+                pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.center,
+                  children: [
+                    pw.Text(
+                      ticket.telephone.toString(),
+                      style: pw.TextStyle(
+                        font: ttf,
+                        fontSize: 10,
+                      ),
+                    ),
+                    pw.SizedBox(width: 5),
+                    pw.Directionality(
+                      textDirection: pw.TextDirection.rtl,
+                      child: pw.Text(
+                        "الهاتف",
+                        style: pw.TextStyle(
+                          font: ttf,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

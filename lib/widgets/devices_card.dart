@@ -16,7 +16,10 @@ class DevicesCard extends StatefulWidget {
 
 class _DevicesCardState extends State<DevicesCard> {
   final TextEditingController _portController = TextEditingController();
+  final TextEditingController _printerController = TextEditingController();
+
   var availablePorts = [];
+  var listPrinters = [];
   void initPorts() {
     setState(() {
       availablePorts = SerialPort.availablePorts;
@@ -28,16 +31,25 @@ class _DevicesCardState extends State<DevicesCard> {
     super.didChangeDependencies();
     SharedPreferences.getInstance().then((value) {
       _portController.text = value.getString('port')!;
+      _printerController.text = value.getString('printer')!;
     });
-    Provider.of<PreferencesController>(context, listen: false).loadPort();
-    // Provider.of<PreferencesController>(context, listen: false)
-    //     .loadPrinters()
-    //     .then((value) {
-    //   print(Provider.of<PreferencesController>(context, listen: false)
-    //       .printersList);
-    // });
 
     initPorts();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<PreferencesController>(context, listen: false).loadPort();
+    Provider.of<PreferencesController>(context, listen: false).loadPrinter();
+    Provider.of<PreferencesController>(context, listen: false)
+        .loadPrinters()
+        .then((value) {
+      listPrinters = Provider.of<PreferencesController>(context, listen: false)
+          .printersList
+          .map((e) => e.url)
+          .toList();
+    });
   }
 
   @override
@@ -47,7 +59,7 @@ class _DevicesCardState extends State<DevicesCard> {
     return Card(
       elevation: 5,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: SingleChildScrollView(
@@ -131,20 +143,26 @@ class _DevicesCardState extends State<DevicesCard> {
                       flex: 4,
                       child: CustomDropdown(
                         hintText: "اختر الطابعة",
+                        items: listPrinters.isEmpty
+                            ? [""]
+                            : listPrinters
+                                .map(
+                                  (e) => e.toString(),
+                                )
+                                .toList(),
+                        controller: _printerController,
                         onChanged: (p0) {
-                          preferencesController.savePort(p0).then(
-                            (value) {
-                              // print("port $p0");
-                              MotionToast.success(
-                                description: const Text("تم حفظ الطابعة بنجاح"),
-                                layoutOrientation: ToastOrientation.rtl,
-                                animationType: AnimationType.fromRight,
-                                width: 300,
-                                height: 100,
-                                position: MotionToastPosition.bottom,
-                              ).show(context);
-                            },
-                          ).catchError(
+                          preferencesController.savePrinter(p0).then((value) {
+                            // print("printer $p0");
+                            MotionToast.success(
+                              description: const Text("تم حفظ الطابعة بنجاح"),
+                              layoutOrientation: ToastOrientation.rtl,
+                              animationType: AnimationType.fromRight,
+                              width: 300,
+                              height: 100,
+                              position: MotionToastPosition.bottom,
+                            ).show(context);
+                          }).catchError(
                             (onError) {
                               MotionToast.error(
                                 description: const Text("حدث خطأ ما"),
@@ -157,51 +175,15 @@ class _DevicesCardState extends State<DevicesCard> {
                             },
                           );
                         },
-                        items: availablePorts.isEmpty
-                            ? [""]
-                            : SerialPort.availablePorts,
-                        controller: _portController,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: deviceSize.height * 0.03,
-                ),
-                // FilledButton(
-                //   onPressed: () {
-                //     preferencesController.connect().then(
-                //       (value) {
-                //         MotionToast.success(
-                //           description: const Text("تم فتح البورت بنجاح"),
-                //           layoutOrientation: ToastOrientation.rtl,
-                //           animationType: AnimationType.fromRight,
-                //           width: 300,
-                //           height: 100,
-                //           position: MotionToastPosition.bottom,
-                //         ).show(context);
-                //       },
-                //     ).catchError(
-                //       (onError) {
-                //         MotionToast.error(
-                //           description: const Text("حدث خطأ ما"),
-                //           layoutOrientation: ToastOrientation.rtl,
-                //           animationType: AnimationType.fromRight,
-                //           width: 300,
-                //           height: 100,
-                //           position: MotionToastPosition.bottom,
-                //         ).show(context);
-                //       },
-                //     );
-                //   },
-                //   child: const Text(" فتح البورت"),
-                // ),
               ],
             ),
           ),
         ),
       ),
     );
-    ;
   }
 }

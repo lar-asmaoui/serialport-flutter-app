@@ -90,7 +90,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         Tab(
                           text: 'احصائيات',
-                          icon: Icon(Icons.timeline_sharp),
+                          icon: Icon(Icons.equalizer),
                         ),
                         Tab(
                           text: 'الطلبيات',

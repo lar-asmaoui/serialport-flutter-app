@@ -18,4 +18,10 @@ class ApiConnect {
   // prices
   static const getPrices = "$HOST_PATH/prices/read.php";
   static const updatePrice = "$HOST_PATH/prices/update.php";
+
+  // printers
+  static const getPrinters = "$HOST_PATH/printers/read.php";
+  static const addPrinter = "$HOST_PATH/printers/add.php";
+  static const updatePrinter = "$HOST_PATH/printers/update.php";
+  static const deletePrinter = "$HOST_PATH/printers/delete.php";
 }
