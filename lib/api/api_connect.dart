@@ -24,4 +24,8 @@ class ApiConnect {
   static const addPrinter = "$HOST_PATH/printers/add.php";
   static const updatePrinter = "$HOST_PATH/printers/update.php";
   static const deletePrinter = "$HOST_PATH/printers/delete.php";
+
+  // tickets
+  static const updateTicket = "$HOST_PATH/tickets/update.php";
+  static const readTicket = "$HOST_PATH/tickets/read.php";
 }

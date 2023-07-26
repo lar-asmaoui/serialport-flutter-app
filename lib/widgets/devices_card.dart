@@ -1,3 +1,5 @@
+// ignore_for_file: await_only_futures, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
@@ -20,21 +22,46 @@ class _DevicesCardState extends State<DevicesCard> {
 
   var availablePorts = [];
   var listPrinters = [];
-  void initPorts() {
-    setState(() {
-      availablePorts = SerialPort.availablePorts;
-    });
+  Future<void> initPorts() async {
+    if (mounted) {
+      setState(() {
+        availablePorts = SerialPort.availablePorts;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    SharedPreferences.getInstance().then((value) {
-      _portController.text = value.getString('port')!;
-      _printerController.text = value.getString('printer')!;
-    });
+    SharedPreferences.getInstance().then((value) async {
+      String port = value.getString('port')!;
+      String printer = value.getString('printer')!;
 
-    initPorts();
+      await initPorts(); // wait until ports are loaded
+
+      // make sure the port is in the list before assigning
+      if (availablePorts.contains(port)) {
+        _portController.text = port;
+      }
+
+      await Provider.of<PreferencesController>(context, listen: false)
+          .loadPrinters(); // wait until printers are loaded
+
+      listPrinters = Provider.of<PreferencesController>(context, listen: false)
+          .printersList
+          .map((e) => e.url)
+          .toList();
+
+      // make sure the printer is in the list before assigning
+      if (listPrinters.contains(printer)) {
+        _printerController.text = printer;
+      }
+    });
   }
 
   @override

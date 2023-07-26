@@ -14,7 +14,7 @@ import '../models/ticket.dart';
 import '../widgets/add_item_card.dart';
 import '../widgets/gauge_card.dart';
 import '../widgets/receipt_card.dart';
-import '../utils/generate_invoice.dart';
+import '../utils/invoices.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -36,9 +36,20 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         Provider.of<PricesController>(context, listen: false).loadPrice(),
         Provider.of<PreferencesController>(context, listen: false)
             .loadPort()
-            .then((value) {
-          Provider.of<PreferencesController>(context, listen: false).connect();
-        }),
+            .then(
+          (value) {
+            Provider.of<PreferencesController>(context, listen: false)
+                .connect()
+                .then((value) => print("connected"))
+                .catchError(
+                  (onError) => {
+                    setState(
+                      () => _weight = 0.0,
+                    )
+                  },
+                );
+          },
+        ),
         Provider.of<PreferencesController>(context, listen: false)
             .loadPrinter()
             .then((value) {
@@ -104,16 +115,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 btnCancelText: "إلغاء",
                 btnOkText: "تأكيد",
                 btnCancelOnPress: () {},
-                btnOkOnPress: () {
-                  orderController
+                btnOkOnPress: () async {
+                  await orderController
                       .addOrder(
                     pricePerkg,
                     totalPrice,
                     totalweight,
                   )
                       .then(
-                    (value) {
-                      Printing.directPrintPdf(
+                    (value) async {
+                      await Printing.directPrintPdf(
                         printer: Printer(
                           url: _printer!,
                         ),
@@ -128,11 +139,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           );
                         },
                       );
+                      cartController.clearItems();
+                      preferencesController.setValue(0.0);
                     },
                   ).then(
                     (value) {
-                      // cartController.clearItems();
-                      // preferencesController.setValue(0.0);
                       MotionToast.success(
                         description: Text("تمت العملية بنجاح"),
                         width: 300,

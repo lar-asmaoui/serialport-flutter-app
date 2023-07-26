@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:weight_calculator/controllers/order_controller.dart';
 import 'package:weight_calculator/models/order.dart';
+import 'package:weight_calculator/utils/invoices.dart';
+import 'package:printing/printing.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
@@ -34,31 +36,58 @@ class _OrdersScreenState extends State<OrdersScreen> {
     final orderController = Provider.of<OrderController>(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: PaginatedDataTable2(
-          // columnSpacing: 8,
-          horizontalMargin: 20,
-          fit: FlexFit.tight,
-          minWidth: deviceSize.width,
-          rowsPerPage: 10,
-          // source: orderController.orders,
-          columns: const [
-            DataColumn2(
-              label: Text('KG الوزن'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FilledButton(
+            onPressed: () {
+              generateRepport(
+                orders: orderController.getOrdersFromToday(),
+              ).then(
+                (value) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('تم تحميل التقرير'),
+                      duration: const Duration(seconds: 2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            child: const Text('تحميل التقرير اليومي'),
+          ),
+          Expanded(
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: PaginatedDataTable2(
+                // columnSpacing: 8,
+                horizontalMargin: 20,
+                fit: FlexFit.tight,
+                minWidth: deviceSize.width,
+                rowsPerPage: 10,
+                // source: orderController.orders,
+                columns: const [
+                  DataColumn2(
+                    label: Text('KG الوزن'),
+                  ),
+                  DataColumn2(
+                    label: Text('سعر الكيلو DH '),
+                  ),
+                  DataColumn2(
+                    label: Text('DH السعر الكلي'),
+                  ),
+                  DataColumn2(
+                    label: Text('التاريخ'),
+                  ),
+                ],
+                source: OrderDataTableSource(orderController.orders),
+              ),
             ),
-            DataColumn2(
-              label: Text('سعر الكيلو DH '),
-            ),
-            DataColumn2(
-              label: Text('DH السعر الكلي'),
-            ),
-            DataColumn2(
-              label: Text('التاريخ'),
-            ),
-          ],
-          source: OrderDataTableSource(orderController.orders),
-        ),
+          ),
+        ],
       ),
     );
   }

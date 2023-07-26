@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:weight_calculator/models/order.dart';
 import 'package:weight_calculator/api/api_connect.dart';
+import 'package:intl/intl.dart';
 
 class OrderController extends ChangeNotifier {
   final List<Order> _orders = [];
@@ -83,5 +84,21 @@ class OrderController extends ChangeNotifier {
     } catch (error) {
       throw Exception(error);
     }
+  }
+
+  List<Order> getOrdersFromToday() {
+    // Get current date
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    // Filter orders
+    List<Order> ordersFromToday = _orders.where((order) {
+      // Only compare the date part, not the time
+      String orderDate = order.orderDate!.split(" ")[0];
+
+      // Check if orderDate is today
+      return orderDate == today;
+    }).toList();
+
+    return ordersFromToday;
   }
 }

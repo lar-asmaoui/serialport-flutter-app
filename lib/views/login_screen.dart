@@ -17,6 +17,7 @@ class LoginScreen extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: null,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
           "تسجيل الدخول",

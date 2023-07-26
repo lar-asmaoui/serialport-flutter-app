@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:provider/provider.dart';
 import 'package:motion_toast/motion_toast.dart';
-import 'package:motion_toast/resources/arrays.dart';
 
 import 'package:weight_calculator/controllers/auth_controller.dart';
 import 'package:weight_calculator/views/login_screen.dart';
@@ -18,6 +17,7 @@ class RegisterScreen extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: null,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
           "Register",
