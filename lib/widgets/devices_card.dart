@@ -23,45 +23,41 @@ class _DevicesCardState extends State<DevicesCard> {
   var availablePorts = [];
   var listPrinters = [];
   Future<void> initPorts() async {
-    if (mounted) {
-      setState(() {
-        availablePorts = SerialPort.availablePorts;
-      });
-    }
+    setState(() {
+      availablePorts = SerialPort.availablePorts;
+    });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  bool _isInit = true;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    SharedPreferences.getInstance().then((value) async {
-      String port = value.getString('port')!;
-      String printer = value.getString('printer')!;
+    if (_isInit) {
+      SharedPreferences.getInstance().then((value) async {
+        String port = value.getString('port')!;
+        String printer = value.getString('printer')!;
 
-      await initPorts(); // wait until ports are loaded
+        await initPorts();
 
-      // make sure the port is in the list before assigning
-      if (availablePorts.contains(port)) {
-        _portController.text = port;
-      }
+        if (availablePorts.contains(port)) {
+          _portController.text = port;
+        }
 
-      await Provider.of<PreferencesController>(context, listen: false)
-          .loadPrinters(); // wait until printers are loaded
+        await Provider.of<PreferencesController>(context, listen: false)
+            .loadPrinters();
 
-      listPrinters = Provider.of<PreferencesController>(context, listen: false)
-          .printersList
-          .map((e) => e.url)
-          .toList();
-
-      // make sure the printer is in the list before assigning
-      if (listPrinters.contains(printer)) {
-        _printerController.text = printer;
-      }
-    });
+        listPrinters =
+            Provider.of<PreferencesController>(context, listen: false)
+                .printersList
+                .map((e) => e.url)
+                .toList();
+        if (listPrinters.contains(printer)) {
+          _printerController.text = printer;
+        }
+      });
+    }
+    _isInit = false;
   }
 
   @override

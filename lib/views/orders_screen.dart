@@ -4,7 +4,6 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:weight_calculator/controllers/order_controller.dart';
 import 'package:weight_calculator/models/order.dart';
 import 'package:weight_calculator/utils/invoices.dart';
-import 'package:printing/printing.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});

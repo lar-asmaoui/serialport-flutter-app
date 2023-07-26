@@ -294,6 +294,24 @@ Future<void> generateRepport({
                   ),
                 ),
                 pw.SizedBox(height: 5),
+                pw.Container(
+                  width: double.infinity,
+                  child: pw.Flexible(
+                    child: pw.Directionality(
+                      textDirection: pw.TextDirection.rtl,
+                      child: pw.Text(
+                        "تقرير",
+                        textAlign: TextAlign.center,
+                        style: pw.TextStyle(
+                          font: ttf,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                pw.SizedBox(height: 5),
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.center,
                   children: [
@@ -361,13 +379,11 @@ Future<void> generateRepport({
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     pw.Text(
-                      orders
-                          .fold(
+                      '${orders.fold(
                             0.0,
                             (previousValue, element) =>
                                 previousValue + element.totalPrice,
-                          )
-                          .toStringAsFixed(2),
+                          ).toStringAsFixed(2)} DH',
                       style: pw.TextStyle(
                         font: ttf,
                         fontSize: 10,
@@ -391,13 +407,11 @@ Future<void> generateRepport({
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     pw.Text(
-                      orders
-                          .fold(
+                      '${orders.fold(
                             0.0,
                             (previousValue, element) =>
                                 previousValue + element.totalWeight,
-                          )
-                          .toStringAsFixed(2),
+                          ).toStringAsFixed(2)} KG',
                       style: pw.TextStyle(
                         font: ttf,
                         fontSize: 10,
@@ -407,7 +421,7 @@ Future<void> generateRepport({
                     pw.Directionality(
                       textDirection: pw.TextDirection.rtl,
                       child: pw.Text(
-                        "الوزن الإجمالي",
+                        "مجموع الأوزان",
                         style: pw.TextStyle(
                           font: ttf,
                           fontSize: 10,
