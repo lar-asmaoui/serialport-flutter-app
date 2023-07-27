@@ -316,17 +316,6 @@ Future<Uint8List> generateRepport({
                       fontSize: 10,
                     ),
                   ),
-                  // pw.SizedBox(width: 10),
-                  // pw.Directionality(
-                  //   textDirection: pw.TextDirection.rtl,
-                  //   child: pw.Text(
-                  //     "بتاريخ",
-                  //     style: pw.TextStyle(
-                  //       font: ttf,
-                  //       fontSize: 8,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
               pw.SizedBox(height: 8),

@@ -22,7 +22,7 @@ class OrderController extends ChangeNotifier {
 
   Future<void> loadOrders() async {
     try {
-      final response = await http.get(Uri.parse(ApiConnect.loadOrders));
+      final response = await http.get(Uri.parse(await ApiConnect.loadOrders));
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['success'] == true) {
@@ -64,7 +64,7 @@ class OrderController extends ChangeNotifier {
       double priceKg, double totalPrice, double totalWeight) async {
     try {
       final response = await http.post(
-        Uri.parse(ApiConnect.addOrder),
+        Uri.parse(await ApiConnect.addOrder),
         body: {
           'kg_price': priceKg.toString(),
           'total_price': totalPrice.toString(),

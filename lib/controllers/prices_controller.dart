@@ -17,7 +17,7 @@ class PricesController extends ChangeNotifier {
     }
     try {
       final response =
-          await http.post(Uri.parse(ApiConnect.updatePrice), body: {
+          await http.post(Uri.parse(await ApiConnect.updatePrice), body: {
         'kg_price': newPrice.toString(),
       });
       if (response.statusCode == 200) {
@@ -37,14 +37,14 @@ class PricesController extends ChangeNotifier {
 
   Future<void> loadPrice() async {
     try {
-      final response = await http.get(Uri.parse(ApiConnect.getPrices));
+      final response = await http.get(Uri.parse(await ApiConnect.getPrices));
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         if (responseData['success'] == true) {
           _price = double.parse(responseData['price']['kg_price']);
           notifyListeners();
         } else {
-          throw Exception('Failed to load price');
+          throw Exception('Failed to load price 2');
         }
       }
     } catch (error) {

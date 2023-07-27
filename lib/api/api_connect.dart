@@ -1,31 +1,60 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, prefer_interpolation_to_compose_strings
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiConnect {
-  static const HOST_PATH = "http://127.0.0.1/mathana";
+  static Future<String> get hostPath async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? path = prefs.getString('HOST_PATH');
+    // path ??= "http://127.0.0.1";
+    return path ?? "";
+  }
+
+  static Future<void> setHostPath(String path) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('HOST_PATH', path);
+  }
+
   //users
-  static const create = "$HOST_PATH/users/create.php";
-  static const login = "$HOST_PATH/users/login.php";
-  static const validate = "$HOST_PATH/users/validate.php";
-  static const loadUsers = "$HOST_PATH/users/all.php";
-  static const updateUser = "$HOST_PATH/users/update.php";
-  static const deleteUser = "$HOST_PATH/users/delete.php";
-  static const updateAllInfo = "$HOST_PATH/users/update_all_info.php";
+  static Future<String> get create async =>
+      await hostPath + "/mathana/users/create.php";
+  static Future<String> get login async =>
+      await hostPath + "/mathana/users/login.php";
+  static Future<String> get validate async =>
+      await hostPath + "/mathana/users/validate.php";
+  static Future<String> get loadUsers async =>
+      await hostPath + "/mathana/users/all.php";
+  static Future<String> get updateUser async =>
+      await hostPath + "/mathana/users/update.php";
+  static Future<String> get deleteUser async =>
+      await hostPath + "/mathana/users/delete.php";
+  static Future<String> get updateAllInfo async =>
+      await hostPath + "/mathana/users/update_all_info.php";
 
   // orders
-  static const addOrder = "$HOST_PATH/orders/add.php";
-  static const loadOrders = "$HOST_PATH/orders/read.php";
+  static Future<String> get addOrder async =>
+      await hostPath + "/mathana/orders/add.php";
+  static Future<String> get loadOrders async =>
+      await hostPath + "/mathana/orders/read.php";
 
   // prices
-  static const getPrices = "$HOST_PATH/prices/read.php";
-  static const updatePrice = "$HOST_PATH/prices/update.php";
+  static Future<String> get getPrices async =>
+      await hostPath + "/mathana/prices/read.php";
+  static Future<String> get updatePrice async =>
+      await hostPath + "/mathana/prices/update.php";
 
   // printers
-  static const getPrinters = "$HOST_PATH/printers/read.php";
-  static const addPrinter = "$HOST_PATH/printers/add.php";
-  static const updatePrinter = "$HOST_PATH/printers/update.php";
-  static const deletePrinter = "$HOST_PATH/printers/delete.php";
+  static Future<String> get getPrinters async =>
+      await hostPath + "/mathana/printers/read.php";
+  static Future<String> get addPrinter async =>
+      await hostPath + "/mathana/printers/add.php";
+  static Future<String> get updatePrinter async =>
+      await hostPath + "/mathana/printers/update.php";
+  static Future<String> get deletePrinter async =>
+      await hostPath + "/mathana/printers/delete.php";
 
-  // tickets
-  static const updateTicket = "$HOST_PATH/tickets/update.php";
-  static const readTicket = "$HOST_PATH/tickets/read.php";
+  static Future<String> get updateTicket async =>
+      await hostPath + "/mathana/tickets/update.php";
+  static Future<String> get readTicket async =>
+      await hostPath + "/mathana/tickets/read.php";
 }

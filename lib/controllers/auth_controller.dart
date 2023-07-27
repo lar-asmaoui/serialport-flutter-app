@@ -11,7 +11,8 @@ class AuthController extends ChangeNotifier {
       throw Exception('لا يمكن أن يكون اسم المستخدم وكلمة المرور فارغين');
     }
     try {
-      final response = await http.post(Uri.parse(ApiConnect.login), body: {
+      final response =
+          await http.post(Uri.parse(await ApiConnect.login), body: {
         'username': username,
         'password': password,
       });
@@ -44,7 +45,7 @@ class AuthController extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse(ApiConnect.create),
+        Uri.parse(await ApiConnect.create),
         body: user.toJson(),
       );
 
@@ -78,7 +79,7 @@ class AuthController extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse(ApiConnect.updateUser),
+        Uri.parse(ApiConnect.updateUser as String),
         body: {
           'id': id.toString(),
           'username': username,

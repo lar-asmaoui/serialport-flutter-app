@@ -13,7 +13,7 @@ class UsersController extends ChangeNotifier {
   Future<void> loadUsers(String id) async {
     try {
       final response = await http.post(
-        Uri.parse(ApiConnect.loadUsers),
+        Uri.parse(await ApiConnect.loadUsers),
         body: {
           'id': id,
         },
@@ -52,7 +52,7 @@ class UsersController extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse(ApiConnect.create),
+        Uri.parse(ApiConnect.create as String),
         body: user.toJson(),
       );
 
@@ -72,7 +72,7 @@ class UsersController extends ChangeNotifier {
   Future<void> delete(String id) async {
     try {
       final response = await http.post(
-        Uri.parse(ApiConnect.deleteUser),
+        Uri.parse(ApiConnect.deleteUser as String),
         body: {'id': id},
       );
 
@@ -100,7 +100,7 @@ class UsersController extends ChangeNotifier {
 
     try {
       final response =
-          await http.post(Uri.parse(ApiConnect.updateAllInfo), body: {
+          await http.post(Uri.parse(ApiConnect.updateAllInfo as String), body: {
         'id': id,
         'username': username,
         'password': password,
