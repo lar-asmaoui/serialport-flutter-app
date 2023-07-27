@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'package:provider/provider.dart';
+import 'package:printing/printing.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:weight_calculator/controllers/order_controller.dart';
 import 'package:weight_calculator/models/order.dart';
@@ -39,25 +42,24 @@ class _OrdersScreenState extends State<OrdersScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           FilledButton(
-            onPressed: () {
-              generateRepport(
-                orders: orderController.getOrdersFromToday(),
-              ).then(
-                (value) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('تم تحميل التقرير'),
-                      duration: const Duration(seconds: 2),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  );
-                },
-              );
+            onPressed: () async {
+              await Printing.layoutPdf(
+                onLayout: (format) => generateRepport(
+                  orders: orderController.getOrdersFromToday(),
+                  format: format,
+                ),
+              ).then((value) {
+                MotionToast.success(
+                  description: Text("تم تحميل التقرير بنجاح"),
+                  width: 300,
+                  animationType: AnimationType.fromBottom,
+                  toastDuration: Duration(seconds: 2),
+                ).show(context);
+              });
             },
             child: const Text('تحميل التقرير اليومي'),
           ),
+          SizedBox(height: deviceSize.height * 0.02),
           Expanded(
             child: Directionality(
               textDirection: TextDirection.rtl,
